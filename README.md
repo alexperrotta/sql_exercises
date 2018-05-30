@@ -5,7 +5,9 @@ Lesson from Digital Crafts bootcamp.
 Creating databases and querying the data.
 
 <strong>Lessons learned</strong> <br>
-Using the psql shell to run queries.
-Creating databases and inserting data.
-SQL statements including order by and group by
-Aggregation - count, sum, avg, max, min
+Using the psql shell to run queries. <br>
+Creating databases and inserting data. <br>
+SQL statements including order by and group by <br>
+Aggregation - count, sum, avg, max, min <br>
+Creating a relational database <br>
+Using joins and subqueries
