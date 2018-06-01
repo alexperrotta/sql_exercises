@@ -9,8 +9,11 @@ const Sequelize = require('sequelize');
 //     db: process.env.POSTGRES_PASS,
 // }
 
+const bodyParser = require('body-parser');
 const app = express();
 const sequelize = new Sequelize('postgres://postgres@localhost:5432/blog');
+
+app.use(bodyParser({urlencoded: true}));
 
 sequelize
     .authenticate()
@@ -30,16 +33,16 @@ const User = sequelize.define('user', {
 });
 
 // will set up a table if there is on, but if the table is already there it won't create again
-User.sync().then(() => {
-    User.create({
-        username: 'alex',
-        password: 'perrotta',
-    });
-    User.create({
-        username: 'kathryn',
-        password: 'parker',
-    });
-})
+// User.sync().then(() => {
+//     User.create({
+//         username: 'alex',
+//         password: 'perrotta',
+//     });
+//     User.create({
+//         username: 'kathryn',
+//         password: 'parker',
+//     });
+// })
 
 
 
@@ -58,6 +61,42 @@ app.get('/getthree', (req, res) => {
         res.json(users);
     })
 })
+
+
+// create a new user
+app.post('/create', (req, res) => {
+    User.create({
+        username: req.body.username,
+        password: req.body.password,
+    });
+});
+
+// update a user
+app.post('/update', (req, res) => {
+    User.update({
+        'password': req.body.password,
+    },{
+        where: {
+            username: req.body.username,
+        }
+    }).then(user => {
+        res.json({'success': true});
+    })
+});
+
+// delete a user
+app.post('/delete', (req, res) => {
+    User.detroy({
+        'password': req.body.password,
+    },{
+        where: {
+            username: req.body.username,
+        }
+    }).then(user => {
+        res.json({'success': true});
+    })
+});
+
 
 app.listen(3000, () => {
     console.log('listening on port 3000');
