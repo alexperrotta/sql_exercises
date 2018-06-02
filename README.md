@@ -11,4 +11,5 @@ SQL statements including order by and group by <br>
 Aggregation - count, sum, avg, max, min <br>
 Creating a relational database <br>
 Using joins and subqueries<br>
-Using seqelize
+Using seqelize<br>
+Using passport.js
