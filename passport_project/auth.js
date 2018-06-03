@@ -28,19 +28,25 @@ const setupAuth = (app) => {
         .then(result => {
             return done(null, result[0]);
         })
-        .catch(done);
+        .catch(err => { // .catch(done);
+            done(err);
+        })
     }))
 
     // This configures how passport turns a user object into something it can track in a session.
     // done is a callback once it calls the user, in case you wanted to do something after it gets the user
-    passport.serializeUser(function(user, done) {
-        done(null, user.id);
+    passport.serializeUser((user, done) => {
+        done(null, {
+            id: user.id,
+            firstname: 'Test',
+            lastname: 'Example',
+        })
     });
 
     // This configures how passport checks what's in the session to see if the login is still valid.
-    passport.deserializeUser(function(id, done) {
-        done(null, id);
-    });
+    passport.deserializeUser((user, done) => {
+        done(null, user);
+    })
 
     // initialize passport middleware and register it with express
    app.use(passport.initialize());
@@ -57,7 +63,7 @@ const setupAuth = (app) => {
 
    app.get('/github/auth',
     passport.authenticate('github', {
-        falureRdirect: '/login'
+        failureRedirect: '/login'
     }),
         (req, res) => {
             res.redirect('/');
